@@ -1,0 +1,133 @@
+
+{% extends "base.html" %}
+
+{% block title %}My Progress - Student Study Planner{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <h1>📊 My Academic Progress</h1>
+    <p>Track your achievements and monitor your study performance.</p>
+</section>
+
+
+<!-- Task Statistics -->
+
+<section class="stats-grid">
+
+    <div class="stat-card">
+        <div class="stat-icon">📝</div>
+        <h3>Total Tasks</h3>
+        <h2>{{ total_tasks }}</h2>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">✅</div>
+        <h3>Completed Tasks</h3>
+        <h2>{{ completed_tasks }}</h2>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">⏰</div>
+        <h3>Total Study Time</h3>
+        <h2>{{ (total_study_minutes // 60) }} hrs
+            {{ (total_study_minutes % 60) }} mins</h2>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">🎯</div>
+        <h3>Completed Goals</h3>
+        <h2>{{ completed_goals }} / {{ total_goals }}</h2>
+    </div>
+
+</section>
+
+
+<!-- Task Completion Progress -->
+
+<section class="progress-card">
+
+    <h2>Task Completion Progress</h2>
+
+    <div class="progress-info">
+        <span>Overall Completion</span>
+        <strong>{{ completion_percentage }}%</strong>
+    </div>
+
+    <div class="progress-bar">
+
+        <div
+            class="progress-fill"
+            style="width: {{ completion_percentage }}%;"
+        ></div>
+
+    </div>
+
+    <p>
+        You have completed {{ completed_tasks }}
+        out of {{ total_tasks }} tasks.
+    </p>
+
+</section>
+
+
+<!-- Goal Progress -->
+
+<section class="progress-card">
+
+    <h2>Study Goal Progress</h2>
+
+    {% if total_goals > 0 %}
+
+        <div class="progress-info">
+
+            <span>Completed Goals</span>
+
+            <strong>
+                {{ ((completed_goals / total_goals) * 100)|round|int }}%
+            </strong>
+
+        </div>
+
+        <div class="progress-bar">
+
+            <div
+                class="progress-fill"
+                style="width: {{ (completed_goals / total_goals) * 100 }}%;"
+            ></div>
+
+        </div>
+
+        <p>
+            You have achieved {{ completed_goals }}
+            out of {{ total_goals }} goals.
+        </p>
+
+    {% else %}
+
+        <p>You haven't created any study goals yet.</p>
+
+        <a href="{{ url_for('goals') }}" class="btn">
+            Create Your First Goal
+        </a>
+
+    {% endif %}
+
+</section>
+
+
+<!-- Motivational Message -->
+
+<section class="motivation-card">
+
+    <h2>Keep Improving! 🌟</h2>
+
+    <p>
+        Success comes from consistent effort.
+        Every completed task and every study session
+        brings you closer to your dreams.
+    </p>
+
+</section>
+
+{% endblock %}

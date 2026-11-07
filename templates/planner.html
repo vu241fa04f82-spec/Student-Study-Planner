@@ -1,0 +1,72 @@
+
+{% extends "base.html" %}
+
+{% block title %}Study Planner{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <h1>📅 Study Planner</h1>
+    <p>Record your study sessions and track your learning time.</p>
+</section>
+
+<div class="content-grid">
+
+    <div class="form-card">
+        <h2>Add Study Session</h2>
+
+        <form method="POST" action="{{ url_for('planner') }}">
+
+            <label>Select Subject</label>
+            <select name="subject_id">
+                <option value="">Select a subject</option>
+                {% for subject in subjects %}
+                    <option value="{{ subject.id }}">
+                        {{ subject.name }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <label>Study Date</label>
+            <input type="date" name="study_date" required>
+
+            <label>Study Duration (minutes)</label>
+            <input type="number" name="duration" min="1"
+                   placeholder="Example: 60" required>
+
+            <label>Study Notes</label>
+            <textarea name="notes" rows="4"
+                      placeholder="What did you study today?"></textarea>
+
+            <button type="submit" class="btn">
+                Save Study Session
+            </button>
+
+        </form>
+    </div>
+
+    <div class="list-card">
+        <h2>My Study History</h2>
+
+        {% if sessions %}
+            {% for session in sessions %}
+                <div class="task-card">
+                    <h3>{{ session.subject_name or "General Study" }}</h3>
+                    <p><strong>Date:</strong> {{ session.study_date }}</p>
+                    <p><strong>Duration:</strong>
+                        {{ session.duration_minutes }} minutes</p>
+                    <p><strong>Notes:</strong>
+                        {{ session.notes or "No notes" }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-state">
+                <h3>No study sessions recorded.</h3>
+                <p>Add your first study session.</p>
+            </div>
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock %}

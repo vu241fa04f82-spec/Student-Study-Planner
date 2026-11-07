@@ -1,0 +1,164 @@
+
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Student Study Planner{% endblock %}
+
+{% block content %}
+
+<section class="welcome-section">
+
+    <div>
+        <h1>Welcome, {{ current_user.name }}! 👋</h1>
+        <p>Let's organize your studies and achieve your goals.</p>
+    </div>
+
+    <div class="today-date">
+        📅 {{ today if today else "Your Study Dashboard" }}
+    </div>
+
+</section>
+
+
+<!-- Statistics Cards -->
+
+<section class="stats-grid">
+
+    <div class="stat-card">
+        <div class="stat-icon">📚</div>
+        <h3>Total Subjects</h3>
+        <h2>{{ total_subjects }}</h2>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">📝</div>
+        <h3>Total Tasks</h3>
+        <h2>{{ total_tasks }}</h2>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">✅</div>
+        <h3>Completed Tasks</h3>
+        <h2>{{ completed_tasks }}</h2>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">⏳</div>
+        <h3>Pending Tasks</h3>
+        <h2>{{ pending_tasks }}</h2>
+    </div>
+
+</section>
+
+
+<!-- Quick Actions -->
+
+<section class="dashboard-section">
+
+    <h2>Quick Actions</h2>
+
+    <div class="quick-actions">
+
+        <a href="{{ url_for('subjects') }}" class="action-card">
+            <span>📚</span>
+            <h3>Manage Subjects</h3>
+            <p>Add and organize your subjects.</p>
+        </a>
+
+        <a href="{{ url_for('tasks') }}" class="action-card">
+            <span>📝</span>
+            <h3>Manage Tasks</h3>
+            <p>Keep track of your assignments.</p>
+        </a>
+
+        <a href="{{ url_for('planner') }}" class="action-card">
+            <span>📅</span>
+            <h3>Study Planner</h3>
+            <p>Record your study sessions.</p>
+        </a>
+
+        <a href="{{ url_for('exams') }}" class="action-card">
+            <span>📖</span>
+            <h3>Examinations</h3>
+            <p>Remember your exam dates.</p>
+        </a>
+
+        <a href="{{ url_for('goals') }}" class="action-card">
+            <span>🎯</span>
+            <h3>Study Goals</h3>
+            <p>Set and achieve your goals.</p>
+        </a>
+
+        <a href="{{ url_for('progress') }}" class="action-card">
+            <span>📊</span>
+            <h3>My Progress</h3>
+            <p>Monitor your academic progress.</p>
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- Upcoming Examinations -->
+
+<section class="dashboard-section">
+
+    <h2>Upcoming Examinations 📚</h2>
+
+    {% if upcoming_exams %}
+
+        <div class="exam-list">
+
+            {% for exam in upcoming_exams %}
+
+                <div class="exam-item">
+
+                    <div>
+                        <h3>{{ exam.title }}</h3>
+                        <p>
+                            Subject:
+                            {{ exam.subject_name or "Not assigned" }}
+                        </p>
+                    </div>
+
+                    <div class="exam-date">
+                        {{ exam.exam_date }}
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-state">
+            <h3>No upcoming examinations</h3>
+            <p>Add your examination dates to stay prepared.</p>
+
+            <a href="{{ url_for('exams') }}" class="btn">
+                Add Examination
+            </a>
+        </div>
+
+    {% endif %}
+
+</section>
+
+
+<!-- Motivational Message -->
+
+<section class="motivation-card">
+
+    <h2>Keep Going! 🌟</h2>
+
+    <p>
+        Every small step you take today brings you closer
+        to your academic goals. Stay consistent and believe
+        in yourself!
+    </p>
+
+</section>
+
+{% endblock %}
